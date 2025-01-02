@@ -1,0 +1,53 @@
+body {
+    background: #f7f7f7;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #495057;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 700px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.password-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.password-table th,
+.password-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.password-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.password-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.password-row:hover {
+    background-color: #f1f1f1;
+}

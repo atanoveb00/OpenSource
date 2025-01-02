@@ -1,0 +1,65 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #495057; /* 텍스트 색상 변경 */
+}
+
+.container {
+    max-width: 500px; /* 카드의 최대 너비 증가 */
+    width: 100%;
+    padding: 15px; /* 작은 여백 추가 */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px; /* 카드 내부 패딩 증가 */
+    text-align: center;
+    width: 100%;
+}
+
+.title {
+    color: #495057;
+    font-size: 1.8rem; /* 제목 크기 증가 */
+    margin-bottom: 30px; /* 제목과 다른 요소 간의 간격 증가 */
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem; /* 글자 크기 증가 */
+    color: #495057;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+.options input {
+    margin-right: 8px;
+}
+
+.btn {
+    background: linear-gradient(135deg, #00AB59, #0ba75c);
+    border: none;
+    padding: 12px 20px; /* 버튼 크기 증가 */
+    color: white;
+    font-size: 1.1rem; /* 버튼 텍스트 크기 증가 */
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px; /* 버튼과 다른 요소 간의 간격 증가 */
+    width: 100%;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #0ba75c, #00AB59);
+}
+
+.alert {
+    margin-top: 15px;
+    font-size: 1rem; /* 알림 텍스트 크기 증가 */
+    color: #0ba75c;
+    display: none;
+}
