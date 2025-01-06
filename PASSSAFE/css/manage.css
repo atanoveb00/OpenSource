@@ -9,6 +9,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Card container */
 .card {
     background-color: #fff;
     border-radius: 10px;
@@ -18,12 +19,14 @@ body {
     text-align: center;
 }
 
+/* Header */
 h1 {
     font-size: 1.8rem;
     margin-bottom: 20px;
     color: #333;
 }
 
+/* Table */
 .password-table {
     width: 100%;
     border-collapse: collapse;
@@ -50,4 +53,72 @@ h1 {
 
 .password-row:hover {
     background-color: #f1f1f1;
+}
+
+/* Password visibility toggle styling */
+.hidden-password {
+    font-family: Arial, sans-serif;
+    letter-spacing: 3px;
+    margin-right: 10px;
+}
+
+.btn-toggle {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+.btn-toggle:hover {
+    background-color: #0056b3;
+}
+
+/* Button */
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-delete:hover {
+    background-color: #a71d2a;
+}
+
+.btn-home {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+.btn-home:hover {
+    background-color: #218838;
+}
+
+/* Input field for usage */
+.usage-input {
+    width: 90%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.usage-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
