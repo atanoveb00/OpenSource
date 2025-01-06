@@ -64,3 +64,21 @@ input {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+/* 안전도 막대 */
+#strength-bar-container {
+    width: 100%;
+    height: 30px;
+    background-color: #e0e0e0; 
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#strength-bar {
+    height: 100%;
+    width: 0%; 
+    background-color: #F37878; 
+    transition: width 0.3s ease, background-color 0.3s ease; 
+}
