@@ -49,9 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
 ////////
 
 const form = document.getElementById("password-form");
-const resultDiv = document.getElementById("result_HIBP");
+const bulkForm = document.getElementById("bulk-form");
+const resultDiv_Single = document.getElementById("result_HIBP_Single");
+const resultDiv_Multiple = document.getElementById("result_HIBP_Multiple");
 
-// SHA-1 해시 생성 함수
+// SHA-1 해시 생성
 async function sha1(message) {
   const msgBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest("SHA-1", msgBuffer);
@@ -59,7 +61,7 @@ async function sha1(message) {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-// HIBP API 호출
+// 단일 비밀번호 검사
 async function checkPassword(password) {
   const hashedPassword = await sha1(password);
   const prefix = hashedPassword.slice(0, 5);
@@ -76,21 +78,91 @@ async function checkPassword(password) {
   return matches ? parseInt(matches.split(":")[1], 10) : 0;
 }
 
+// 대량 비밀번호 검사
+async function checkBulkPasswords(passwords) {
+  const results = [];
+  for (const password of passwords) {
+    const count = await checkPassword(password);
+    results.push({ password, count });
+  }
+  return results;
+}
+
+// 비밀번호 강도 등급
+function getPasswordStrength(count) {
+  if (count === 0) return { grade: "Safe", color: "green" };
+  if (count <= 10) return { grade: "Moderate Risk", color: "orange" };
+  return { grade: "High Risk", color: "red" };
+}
+
+// 단일 비밀번호 검사 핸들러
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const password = document.getElementById("password").value;
+
+  if (password) {
+    resultDiv_Single.textContent = "Checking...";
+    const count = await checkPassword(password);
+    const { grade, color } = getPasswordStrength(count);
+
+    resultDiv_Single.innerHTML = `
+      <span style="color: ${color};">
+        This password has been pwned ${count} times. Risk Level: ${grade}
+      </span>`;
+  } else {
+    resultDiv_Single.textContent = "Please enter a password.";
+  }
+});
+
+// 대량 비밀번호 검사 핸들러
+bulkForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fileInput = document.getElementById("bulk-passwords");
+  const file = fileInput.files[0];
+
+  if (file) {
+    const text = await file.text();
+    const passwords = text.split("\n").filter((p) => p.trim() !== "");
+
+    resultDiv_Multiple.textContent = "Checking bulk passwords...";
+    const results = await checkBulkPasswords(passwords);
+
+    resultDiv_Multiple.innerHTML = `
+      <h3>Bulk Password Check Results:</h3>
+      <ul>
+        ${results
+          .map(
+            (r) => `
+          <li>
+            Password: ${r.password} - Found ${r.count} times.
+            <span style="color: ${getPasswordStrength(r.count).color};">
+              (${getPasswordStrength(r.count).grade})
+            </span>
+          </li>
+        `
+          )
+          .join("")}
+      </ul>`;
+  } else {
+    resultDiv_Multiple.textContent = "Please upload a file.";
+  }
+});
+
 // 폼 제출 처리
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const password = document.getElementById("password_HIBP").value;
 
   if (password) {
-    resultDiv.textContent = "Checking...";
+    resultDiv_Single.textContent = "Checking...";
     const count = await checkPassword(password);
 
     if (count > 0) {
-      resultDiv.innerHTML = `<span style="color: red;">This password has been pwned ${count} times! Choose another password.</span>`;
+      resultDiv_Single.innerHTML = `<span style="color: red;">This password has been pwned ${count} times! Choose another password.</span>`;
     } else {
-      resultDiv.innerHTML = `<span style="color: green;">This password is safe to use.</span>`;
+      resultDiv_Single.innerHTML = `<span style="color: green;">This password is safe to use.</span>`;
     }
   } else {
-    resultDiv.textContent = "Please enter a password.";
+    resultDiv_Single.textContent = "Please enter a password.";
   }
 });
