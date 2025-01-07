@@ -51,9 +51,40 @@ document.addEventListener("DOMContentLoaded", () => {
         if (includeSpecialChars) characterPool += specialChars;
 
         const passwordLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+
         let password = "";
+        let specialCharCount = 0;
+
         for (let i = 0; i < passwordLength; i++) {
-            password += characterPool.charAt(Math.floor(Math.random() * characterPool.length));
+            let char = "";
+
+            // 첫 글자 조건: 문자 또는 숫자로 시작
+            if (i === 0) {
+                const firstPool = (includeLetters ? letters : "") + (includeNumbers ? numbers : "");
+                char = firstPool.charAt(Math.floor(Math.random() * firstPool.length));
+            } else {
+                // 일반적인 문자 선택
+                char = characterPool.charAt(Math.floor(Math.random() * characterPool.length));
+            }
+
+            // 연속 3개 같은 문자/숫자/특수문자 방지
+            if (password.length >= 2 &&
+                char === password[password.length - 1] &&
+                char === password[password.length - 2]) {
+                i--; // 연속 문자 발생 시 다시 뽑기
+                continue;
+            }
+
+            // 특수문자 갯수 제한
+            if (specialChars.includes(char)) {
+                if (specialCharCount >= 5) {
+                    i--; // 특수문자 초과 시 다시 뽑기
+                    continue;
+                }
+                specialCharCount++;
+            }
+
+            password += char;
         }
 
         return password;
