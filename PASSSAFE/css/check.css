@@ -66,6 +66,7 @@ input {
   border: 1px solid #f5c6cb;
 }
 
+
 /* 안전도 막대 */
 #strength-bar-container {
   width: 100%;
@@ -83,6 +84,66 @@ input {
   background-color: #f37878;
   transition: width 0.3s ease, background-color 0.3s ease;
 }
+
+/* brute forecem 버튼 설정 */
+#brute-force-button {
+  width: 100%; 
+  background: linear-gradient(135deg, #00ab59, #0ba75c);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 50px;
+}
+
+#brute-force-button:hover {
+  background: linear-gradient(135deg, #0ba75c, #00ab59);
+}
+
+/* brute force 진행 상태 */
+#current-attempt {
+  position: relative;
+  z-index: 1; /* Current attempt를 최상위로 설정 */
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px; /* 간격 추가 */
+}
+
+#brute-force-time {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.progress-container {
+  position: relative; /* 게이지 내부에서 absolute가 동작하도록 설정 */
+  width: 100%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #00AB59; /* 기본 초록색 */
+  transition: width 0.1s ease, background-color 0.1s ease;
+}
+
+.progress-bar-fill.high {
+  background-color: #F99A5F; /* 높은 강도 */
+}
+
+.progress-bar-fill.critical {
+  background-color: #F37878; /* 치명적 강도 */
+}
+
 
 /* ////////// */
 

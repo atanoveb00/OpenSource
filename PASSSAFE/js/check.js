@@ -47,6 +47,93 @@ document.addEventListener("DOMContentLoaded", () => {
   passwordInput.addEventListener("input", updatePasswordFeedback);
 });
 
+
+// brute force 시뮬레이션
+document.getElementById("brute-force-button").addEventListener("click", () => {
+  const password = document.getElementById("passwordInput").value.trim();
+
+  if (!password) {
+    alert("Please enter a password.");
+    return;
+  }
+
+  let attemptCount = 0;
+  const startTime = Date.now();
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  const statusDisplay = document.getElementById("status");
+  const progressBarFill = document.getElementById("progress-bar-fill");
+  const currentAttemptDisplay = document.getElementById("current-attempt");
+  const bruteForceTime = document.getElementById("brute-force-time");
+
+  // 진행 상태 초기화
+  statusDisplay.textContent = "Status: Starting brute force...";
+  progressBarFill.style.width = "0%";
+  progressBarFill.className = "progress-bar-fill"; // 초기 상태
+  currentAttemptDisplay.textContent = "Current attempt: ";
+  bruteForceTime.textContent = "";
+
+  const totalAttempts = Math.pow(chars.length, password.length);
+
+  const bruteForce = (current) => {
+    if (current === password) {
+      const endTime = Date.now();
+      const elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
+
+      // 비밀번호 찾음
+      statusDisplay.textContent = `Status: Password found in ${elapsedTime} seconds after ${attemptCount} attempts!`;
+      currentAttemptDisplay.textContent = `Current attempt: ${current}`;
+      progressBarFill.style.width = "100%";
+      progressBarFill.className = "progress-bar-fill critical";
+      return;
+    }
+
+    attemptCount++;
+    currentAttemptDisplay.textContent = `Current attempt: ${current}`;
+
+    // 게이지 업데이트
+    const progress = ((attemptCount / totalAttempts) * 100).toFixed(2);
+    progressBarFill.style.width = `${progress}%`;
+
+    // 진행 상태에 따른 색상 변경
+    if (progress < 40) {
+      progressBarFill.className = "progress-bar-fill";
+    } else if (progress < 70) {
+      progressBarFill.className = "progress-bar-fill high";
+    } else {
+      progressBarFill.className = "progress-bar-fill critical";
+    }
+
+    // 다음 문자열 생성
+    setTimeout(() => {
+      const next = generateNextString(current, chars);
+      bruteForce(next);
+    }, 0); // 업데이트 간격
+  };
+
+  const generateNextString = (current, chars) => {
+    let i = current.length - 1;
+    while (i >= 0) {
+      const charIndex = chars.indexOf(current[i]);
+      if (charIndex < chars.length - 1) {
+        return (
+          current.substring(0, i) +
+          chars[charIndex + 1] +
+          current.substring(i + 1)
+        );
+      }
+      current = current.substring(0, i) + chars[0] + current.substring(i + 1);
+      i--;
+    }
+    return chars[0] + current;
+  };
+
+  bruteForce(chars[0]);
+
+});
+
+
+
 ////////
 
 const form = document.getElementById("password-form");
@@ -97,8 +184,8 @@ bulkForm.addEventListener("submit", async (e) => {
       <h3>Bulk Password Check Results:</h3>
       <ul>
         ${results
-          .map(
-            (r) => `
+        .map(
+          (r) => `
           <li>
             Password: ${r.password} - Found ${r.count} times.
             <span style="color: ${getPasswordStrength(r.count).color};">
@@ -106,8 +193,8 @@ bulkForm.addEventListener("submit", async (e) => {
             </span>
           </li>
         `
-          )
-          .join("")}
+        )
+        .join("")}
       </ul>`;
   } else {
     resultDiv_Multiple.textContent = "Please upload a file.";
