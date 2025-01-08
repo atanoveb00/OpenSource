@@ -172,7 +172,18 @@ bulkForm.addEventListener("submit", async (e) => {
 
   if (file) {
     const text = await file.text();
-    const passwords = text.split("\n").filter((p) => p.trim() !== "");
+    // 파일 내용 파싱: 첫 번째 줄(헤더) 제외, 탭으로 구분된 데이터에서 비밀번호 추출
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+    const passwords = lines
+      .slice(1) // 첫 번째 줄(헤더) 제외
+      .map((line) => line.split("\t")[1]) // 두 번째 열(비밀번호)만 추출
+      .filter((password) => password && password.trim() !== ""); // 유효한 비밀번호만 필터링
+
+    if (passwords.length === 0) {
+      resultDiv_Multiple.textContent =
+        "파일에서 유효한 비밀번호를 찾을 수 없습니다.";
+      return;
+    }
 
     resultDiv_Multiple.textContent = "Checking bulk passwords...";
     const results = await checkBulkPasswords(passwords);
