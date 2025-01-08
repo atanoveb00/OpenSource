@@ -50,86 +50,66 @@ document.addEventListener("DOMContentLoaded", () => {
 // brute force 시뮬레이션
 document.getElementById("brute-force-button").addEventListener("click", () => {
   const password = document.getElementById("passwordInput").value.trim();
-
   if (!password) {
-    alert("Please enter a password.");
+    alert("비밀번호를 입력하세요.");
     return;
   }
 
-  let attemptCount = 0;
-  const startTime = Date.now();
-  const chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  const statusDisplay = document.getElementById("status");
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
   const progressBarFill = document.getElementById("progress-bar-fill");
   const currentAttemptDisplay = document.getElementById("current-attempt");
-  const bruteForceTime = document.getElementById("brute-force-time");
+  const statusDisplay = document.getElementById("status");
+  const bruteStrengthText = document.getElementById("brute-strength-text");
 
-  // 진행 상태 초기화
-  statusDisplay.textContent = "Status: Starting brute force...";
+  // 초기화
   progressBarFill.style.width = "0%";
-  progressBarFill.className = "progress-bar-fill"; // 초기 상태
-  currentAttemptDisplay.textContent = "Current attempt: ";
-  bruteForceTime.textContent = "";
+  progressBarFill.style.backgroundColor = "#e0e0e0";
+  statusDisplay.textContent = "Status: In Progress...";
+  currentAttemptDisplay.textContent = "Current attempt: Waiting...";
+  bruteStrengthText.textContent = "Password strength: Calculating...";
 
-  const totalAttempts = Math.pow(chars.length, password.length);
+  // 웹 워커 생성
+  const bruteForceWorker = new Worker("./js/check_modules/bruteForce.js");
 
-  const bruteForce = (current) => {
-    if (current === password) {
-      const endTime = Date.now();
-      const elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
+  // 워커에 데이터 전달
+  bruteForceWorker.postMessage({ password, chars });
 
-      // 비밀번호 찾음
-      statusDisplay.textContent = `Status: Password found in ${elapsedTime} seconds after ${attemptCount} attempts!`;
+  // 워커 메시지 처리
+  bruteForceWorker.onmessage = (event) => {
+    const { type, progress, attemptCount, current, elapsedTime, strength } = event.data;
+
+    if (type === "progress") {
+      // 진행 상태 업데이트
+      progressBarFill.style.width = `${progress}%`;
       currentAttemptDisplay.textContent = `Current attempt: ${current}`;
-      progressBarFill.style.width = "100%";
-      progressBarFill.className = "progress-bar-fill critical";
-      return;
+    } else if (type === "complete") {
+      // 강도 단계별 색상 및 너비
+      const strengthColors = {
+        "Very Weak": "#F37878",
+        "Weak": "#F99A5F",
+        "Fair": "#FFD54F",
+        "Strong": "#90CAF9",
+        "Very Strong": "#00AB59",
+      };
+
+      const strengthWidths = {
+        "Very Weak": "20%",
+        "Weak": "40%",
+        "Fair": "60%",
+        "Strong": "80%",
+        "Very Strong": "100%",
+      };
+
+      // 막대 게이지와 텍스트 업데이트
+      currentAttemptDisplay.textContent = `Current attempt: ${password}`;
+      progressBarFill.style.width = strengthWidths[strength];
+      progressBarFill.style.backgroundColor = strengthColors[strength];
+      statusDisplay.innerHTML = `Password found in <span>${elapsedTime.toFixed(2)} seconds</span> after <span>${attemptCount} attempts</span>.`;
+      bruteStrengthText.innerHTML = `Password strength: <span style="color: ${strengthColors[strength]}">${strength}</span>`;
     }
-
-    attemptCount++;
-    currentAttemptDisplay.textContent = `Current attempt: ${current}`;
-
-    // 게이지 업데이트
-    const progress = ((attemptCount / totalAttempts) * 100).toFixed(2);
-    progressBarFill.style.width = `${progress}%`;
-
-    // 진행 상태에 따른 색상 변경
-    if (progress < 40) {
-      progressBarFill.className = "progress-bar-fill";
-    } else if (progress < 70) {
-      progressBarFill.className = "progress-bar-fill high";
-    } else {
-      progressBarFill.className = "progress-bar-fill critical";
-    }
-
-    // 다음 문자열 생성
-    setTimeout(() => {
-      const next = generateNextString(current, chars);
-      bruteForce(next);
-    }, 0); // 업데이트 간격
   };
-
-  const generateNextString = (current, chars) => {
-    let i = current.length - 1;
-    while (i >= 0) {
-      const charIndex = chars.indexOf(current[i]);
-      if (charIndex < chars.length - 1) {
-        return (
-          current.substring(0, i) +
-          chars[charIndex + 1] +
-          current.substring(i + 1)
-        );
-      }
-      current = current.substring(0, i) + chars[0] + current.substring(i + 1);
-      i--;
-    }
-    return chars[0] + current;
-  };
-
-  bruteForce(chars[0]);
 });
+
 
 // HIBP 부분
 

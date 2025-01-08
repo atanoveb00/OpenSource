@@ -103,20 +103,14 @@ input {
 /* brute force 진행 상태 */
 #current-attempt {
   position: relative;
-  z-index: 1; /* Current attempt를 최상위로 설정 */
   font-size: 16px;
   color: #333;
-  margin-top: 10px; /* 간격 추가 */
-}
-
-#brute-force-time {
-  margin-top: 5px;
-  font-size: 0.9em;
-  color: #555;
+  margin-top: 15px; /* 간격 추가 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .progress-container {
-  position: relative; /* 게이지 내부에서 absolute가 동작하도록 설정 */
+  position: relative; 
   width: 100%;
   height: 30px;
   background-color: #e0e0e0;
@@ -132,18 +126,8 @@ input {
   left: 0;
   height: 100%;
   width: 0%;
-  background-color: #00AB59; /* 기본 초록색 */
-  transition: width 0.1s ease, background-color 0.1s ease;
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
-
-.progress-bar-fill.high {
-  background-color: #F99A5F; /* 높은 강도 */
-}
-
-.progress-bar-fill.critical {
-  background-color: #F37878; /* 치명적 강도 */
-}
-
 
 /* ////////// */
 
