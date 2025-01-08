@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
   passwordInput.addEventListener("input", updatePasswordFeedback);
 });
 
-
 // brute force 시뮬레이션
 document.getElementById("brute-force-button").addEventListener("click", () => {
   const password = document.getElementById("passwordInput").value.trim();
@@ -59,7 +58,8 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
 
   let attemptCount = 0;
   const startTime = Date.now();
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const chars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   const statusDisplay = document.getElementById("status");
   const progressBarFill = document.getElementById("progress-bar-fill");
@@ -129,12 +129,9 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
   };
 
   bruteForce(chars[0]);
-
 });
 
-
-
-////////
+// HIBP 부분
 
 const form = document.getElementById("password-form");
 const bulkForm = document.getElementById("bulk-form");
@@ -184,8 +181,8 @@ bulkForm.addEventListener("submit", async (e) => {
       <h3>Bulk Password Check Results:</h3>
       <ul>
         ${results
-        .map(
-          (r) => `
+          .map(
+            (r) => `
           <li>
             Password: ${r.password} - Found ${r.count} times.
             <span style="color: ${getPasswordStrength(r.count).color};">
@@ -193,8 +190,8 @@ bulkForm.addEventListener("submit", async (e) => {
             </span>
           </li>
         `
-        )
-        .join("")}
+          )
+          .join("")}
       </ul>`;
   } else {
     resultDiv_Multiple.textContent = "Please upload a file.";
