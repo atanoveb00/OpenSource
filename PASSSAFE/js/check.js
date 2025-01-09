@@ -187,13 +187,42 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
 
 // Load the rockyou.txt file and store it in memory
 let rockyouPasswords = new Set();
+let rockyouLoaded = false;
 
-async function loadRockyouPasswords() {
-  const response = await fetch("./js/check_modules/rockyou.txt"); // 로컬 또는 서버의 rockyou.txt 경로
-  const text = await response.text();
-  rockyouPasswords = new Set(text.split("\n").map((p) => p.trim()));
-  console.log("Rockyou passwords loaded:", rockyouPasswords.size);
+export async function loadRockyouPasswords() {
+  const loadingMessage = document.getElementById("loading-message");
+  const rockyouStatus = document.getElementById("rockyou-status");
+
+  // 로딩 메시지 표시
+  loadingMessage.style.display = "block";
+
+  try {
+    const response = await fetch("./js/check_modules/rockyou.txt");
+    if (!response.ok) {
+      throw new Error("rockyou.txt 파일을 로드할 수 없습니다.");
+    }
+
+    const text = await response.text();
+    rockyouPasswords = new Set(text.split("\n").map((p) => p.trim()));
+    rockyouLoaded = true;
+
+    // 로딩 완료 메시지
+    loadingMessage.style.display = "none"; // 로딩 메시지 숨김
+    rockyouStatus.style.display = "block"; // 로드 완료 메시지 표시
+    setTimeout(() => (rockyouStatus.style.display = "none"), 3000); // 3초 후 메시지 숨김
+
+    console.log("Rockyou passwords loaded:", rockyouPasswords.size);
+  } catch (error) {
+    loadingMessage.style.color = "red";
+    loadingMessage.textContent = `❌ 파일 로드 중 문제가 발생했습니다: ${error.message}`;
+    console.error(error);
+  }
 }
+
+// 페이지 로드 시 파일 로드 호출
+document.addEventListener("DOMContentLoaded", () => {
+  loadRockyouPasswords();
+});
 
 // Call the load function when the script is initialized
 loadRockyouPasswords();
@@ -268,7 +297,7 @@ bulkForm.addEventListener("submit", async (e) => {
 
     if (passwords.length === 0) {
       resultDiv_Multiple.textContent =
-        "파일에서 유효한 비밀번호를 찾을 수 없습니다.";
+        "파일에서 유효한 비밀번호를 찾을 수 없거나, 올바르지 않은 파일 양식입니다.";
       return;
     }
 
