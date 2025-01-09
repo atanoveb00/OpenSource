@@ -57,16 +57,16 @@ input {
 }
 
 .alert {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  text-align: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   margin-top: 0px;
-  padding: 10px; 
+  padding: 10px;
   border-radius: 5px;
   font-size: 15px;
-  min-height: 10px; 
-  line-height: 1.5; 
+  min-height: 10px;
+  line-height: 1.5;
 }
 
 .alert.success {
@@ -109,24 +109,24 @@ input {
 
 /* 비밀번호 상태 체크 */
 #condition-container {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  text-align: center; 
-  background-color: #F3FFF1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f3fff1;
   border-radius: 5px;
   font-size: 15px;
-  line-height: 1.5; 
+  line-height: 1.5;
 }
 
 .conditions-row {
   display: flex;
-  justify-content: space-evenly; 
+  justify-content: space-evenly;
   margin: 10px 0;
 }
 
 .condition-item {
-  text-align: center; 
+  text-align: center;
   padding: 5px 10px;
 }
 
@@ -194,6 +194,16 @@ input {
 }
 
 /* ////////// */
+
+/* Weak Password Dictionary Check Styles */
+#dictionary-check-container {
+  margin-top: 20px;
+}
+
+#dictionary-check-result {
+  margin-top: 10px;
+  font-weight: bold;
+}
 
 .container {
   background: white;

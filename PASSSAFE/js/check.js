@@ -1,6 +1,7 @@
 // JH + JM
 
 import { checkPasswordStrength } from "./check_modules/zxcvbn.js";
+// import { loadRockyouPasswords } from "./check_modules/dictionary.js";
 import { checkPassword, checkBulkPasswords } from "./check_modules/hibp.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -71,7 +72,10 @@ const analyzePassword = (password) => {
     { label: "Uppercase Letters", valid: /[A-Z]/.test(password) },
     { label: "Lowercase Letters", valid: /[a-z]/.test(password) },
     { label: "Numbers", valid: /[0-9]/.test(password) },
-    { label: "Special Characters", valid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) },
+    {
+      label: "Special Characters",
+      valid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+    },
   ];
 
   return conditions;
@@ -83,18 +87,24 @@ const renderVisualFeedback = (password) => {
   // 시각적 조건 상태 표시
   conditionStatus.innerHTML = `
     <div class="conditions-row">
-      ${conditions.slice(0, 3)
+      ${conditions
+        .slice(0, 3)
         .map(
           (condition) =>
-            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${condition.label}</div>`
+            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${
+              condition.label
+            }</div>`
         )
         .join("")}
     </div>
     <div class="conditions-row">
-      ${conditions.slice(3)
+      ${conditions
+        .slice(3)
         .map(
           (condition) =>
-            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${condition.label}</div>`
+            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${
+              condition.label
+            }</div>`
         )
         .join("")}
     </div>
@@ -114,7 +124,8 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
     return;
   }
 
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+  const chars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
   const progressBarFill = document.getElementById("progress-bar-fill");
   const currentAttemptDisplay = document.getElementById("current-attempt");
   const statusDisplay = document.getElementById("status");
@@ -135,7 +146,8 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
 
   // 워커 메시지 처리
   bruteForceWorker.onmessage = (event) => {
-    const { type, progress, attemptCount, current, elapsedTime, strength } = event.data;
+    const { type, progress, attemptCount, current, elapsedTime, strength } =
+      event.data;
 
     if (type === "progress") {
       // 진행 상태 업데이트
@@ -145,17 +157,17 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
       // 강도 단계별 색상 및 너비
       const strengthColors = {
         "Very Weak": "#F37878",
-        "Weak": "#F99A5F",
-        "Fair": "#FFD54F",
-        "Strong": "#90CAF9",
+        Weak: "#F99A5F",
+        Fair: "#FFD54F",
+        Strong: "#90CAF9",
         "Very Strong": "#00AB59",
       };
 
       const strengthWidths = {
         "Very Weak": "20%",
-        "Weak": "40%",
-        "Fair": "60%",
-        "Strong": "80%",
+        Weak: "40%",
+        Fair: "60%",
+        Strong: "80%",
         "Very Strong": "100%",
       };
 
@@ -163,12 +175,48 @@ document.getElementById("brute-force-button").addEventListener("click", () => {
       currentAttemptDisplay.textContent = `Current attempt: ${password}`;
       progressBarFill.style.width = strengthWidths[strength];
       progressBarFill.style.backgroundColor = strengthColors[strength];
-      statusDisplay.innerHTML = `Password found in <span>${elapsedTime.toFixed(2)} seconds</span> after <span>${attemptCount} attempts</span>.`;
+      statusDisplay.innerHTML = `Password found in <span>${elapsedTime.toFixed(
+        2
+      )} seconds</span> after <span>${attemptCount} attempts</span>.`;
       bruteStrengthText.innerHTML = `Password strength: <span style="color: ${strengthColors[strength]}">${strength}</span>`;
     }
   };
 });
 
+// Dictionary 부분
+
+// Load the rockyou.txt file and store it in memory
+let rockyouPasswords = new Set();
+
+async function loadRockyouPasswords() {
+  const response = await fetch("./js/check_modules/rockyou.txt"); // 로컬 또는 서버의 rockyou.txt 경로
+  const text = await response.text();
+  rockyouPasswords = new Set(text.split("\n").map((p) => p.trim()));
+  console.log("Rockyou passwords loaded:", rockyouPasswords.size);
+}
+
+// Call the load function when the script is initialized
+loadRockyouPasswords();
+
+// Weak Password Dictionary Check Handler
+const dictionaryCheckForm = document.getElementById("dictionary-check-form");
+const dictionaryPasswordInput = document.getElementById("dictionary-password");
+const dictionaryCheckResult = document.getElementById(
+  "dictionary-check-result"
+);
+
+dictionaryCheckForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const password = dictionaryPasswordInput.value.trim();
+
+  if (rockyouPasswords.has(password)) {
+    dictionaryCheckResult.textContent = `❌ Weak Password: This password is in the dictionary.`;
+    dictionaryCheckResult.style.color = "red";
+  } else {
+    dictionaryCheckResult.textContent = `✅ Strong Password: This password is not in the dictionary.`;
+    dictionaryCheckResult.style.color = "green";
+  }
+});
 
 // HIBP 부분
 
@@ -187,7 +235,7 @@ function getPasswordStrength(count) {
 // 단일 비밀번호 검사 핸들러
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const password = document.getElementById("password").value;
+  const password = document.getElementById("password_HIBP").value;
 
   if (password) {
     resultDiv_Single.textContent = "Checking...";
@@ -231,8 +279,8 @@ bulkForm.addEventListener("submit", async (e) => {
       <h3>Bulk Password Check Results:</h3>
       <ul>
         ${results
-        .map(
-          (r) => `
+          .map(
+            (r) => `
           <li>
             Password: ${r.password} - Found ${r.count} times.
             <span style="color: ${getPasswordStrength(r.count).color};">
@@ -240,8 +288,8 @@ bulkForm.addEventListener("submit", async (e) => {
             </span>
           </li>
         `
-        )
-        .join("")}
+          )
+          .join("")}
       </ul>`;
   } else {
     resultDiv_Multiple.textContent = "Please upload a file.";
