@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (password.length < 8) {
       result.textContent = "비밀번호가 너무 짧습니다. 8자 이상 입력하세요.";
       result.className = "alert error";
-      result.style.display = "block";
 
       strengthBar.style.width = "0%";
       strengthBar.style.backgroundColor = "#e0e0e0";
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       result.textContent = "비밀번호 길이는 적절합니다.";
       result.className = "alert success";
-      result.style.display = "block";
     }
 
     try {
@@ -45,6 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   passwordInput.addEventListener("input", updatePasswordFeedback);
+});
+
+// 비밀번호 보기/숨기기 버튼 기능
+document.addEventListener("DOMContentLoaded", () => {
+  const passwordInput = document.getElementById("passwordInput");
+  const togglePassword = document.getElementById("togglePassword");
+  const eyeIcon = document.getElementById("eyeIcon");
+
+  togglePassword.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      eyeIcon.src = "/assets/img/eye-open.png"; // 눈 감은 아이콘으로 변경
+    } else {
+      passwordInput.type = "password";
+      eyeIcon.src = "/assets/img/eye-closed.png"; // 눈 뜬 아이콘으로 변경
+    }
+  });
 });
 
 // brute force 시뮬레이션
@@ -172,8 +187,8 @@ bulkForm.addEventListener("submit", async (e) => {
       <h3>Bulk Password Check Results:</h3>
       <ul>
         ${results
-          .map(
-            (r) => `
+        .map(
+          (r) => `
           <li>
             Password: ${r.password} - Found ${r.count} times.
             <span style="color: ${getPasswordStrength(r.count).color};">
@@ -181,8 +196,8 @@ bulkForm.addEventListener("submit", async (e) => {
             </span>
           </li>
         `
-          )
-          .join("")}
+        )
+        .join("")}
       </ul>`;
   } else {
     resultDiv_Multiple.textContent = "Please upload a file.";
