@@ -107,6 +107,29 @@ input {
   transform: scale(1.1);
 }
 
+/* 비밀번호 상태 체크 */
+#condition-container {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+  background-color: #F3FFF1;
+  border-radius: 5px;
+  font-size: 15px;
+  line-height: 1.5; 
+}
+
+.conditions-row {
+  display: flex;
+  justify-content: space-evenly; 
+  margin: 10px 0;
+}
+
+.condition-item {
+  text-align: center; 
+  padding: 5px 10px;
+}
+
 /* 안전도 막대 */
 #strength-bar-container {
   width: 100%;

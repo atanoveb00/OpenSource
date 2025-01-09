@@ -62,6 +62,50 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// 비밀번호 상태 체크 기능
+const conditionStatus = document.getElementById("condition-status");
+
+const analyzePassword = (password) => {
+  const conditions = [
+    { label: "Length (12+)", valid: password.length >= 12 },
+    { label: "Uppercase Letters", valid: /[A-Z]/.test(password) },
+    { label: "Lowercase Letters", valid: /[a-z]/.test(password) },
+    { label: "Numbers", valid: /[0-9]/.test(password) },
+    { label: "Special Characters", valid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) },
+  ];
+
+  return conditions;
+};
+
+const renderVisualFeedback = (password) => {
+  const conditions = analyzePassword(password);
+
+  // 시각적 조건 상태 표시
+  conditionStatus.innerHTML = `
+    <div class="conditions-row">
+      ${conditions.slice(0, 3)
+        .map(
+          (condition) =>
+            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${condition.label}</div>`
+        )
+        .join("")}
+    </div>
+    <div class="conditions-row">
+      ${conditions.slice(3)
+        .map(
+          (condition) =>
+            `<div class="condition-item">${condition.valid ? "✔️" : "❌"} ${condition.label}</div>`
+        )
+        .join("")}
+    </div>
+  `;
+};
+
+passwordInput.addEventListener("input", () => {
+  const password = passwordInput.value.trim();
+  renderVisualFeedback(password);
+});
+
 // brute force 시뮬레이션
 document.getElementById("brute-force-button").addEventListener("click", () => {
   const password = document.getElementById("passwordInput").value.trim();
