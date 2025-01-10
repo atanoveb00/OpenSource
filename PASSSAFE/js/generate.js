@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const addToListButton = document.createElement("button");
         addToListButton.id = "addToListButton";
         addToListButton.textContent = "Add to List and Manage";
-        addToListButton.className = "btn";
+        addToListButton.className = "btn-fill";
 
         // 버튼 클릭 시 SweetAlert 사용
         addToListButton.addEventListener("click", () => {
@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     input: 'custom-input-field', // 입력 필드 스타일
                 },
                 buttonsStyling: false,
+                
                 inputValidator: (value) => {
                     if (!value) {
                         return 'You need to provide a usage!';
@@ -201,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const managePageButton = document.createElement("button");
         managePageButton.id = "managePageButton";
         managePageButton.textContent = "Go to Manage Page";
-        managePageButton.className = "btn";
+        managePageButton.className = "btn-fill";
 
         managePageButton.addEventListener("click", () => {
             window.location.href = "password-manage.html"; // 관리 페이지로 이동

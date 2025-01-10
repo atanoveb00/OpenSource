@@ -44,6 +44,7 @@ body {
     height: 22px; 
     width: 250px;
     z-index: 1; 
+    cursor: pointer;
 }
 
 /* 배경 애니메이션 */

@@ -22,7 +22,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     padding: 30px; /* 카드 내부 패딩 증가 */
     text-align: center;
-    width: 520px;
+    width: 500px;
 }
 
 .logo-img {
@@ -140,6 +140,67 @@ body {
     font-family: 'BPreplay', Arial, sans-serif !important;
 }
 
+/* 버튼 기본 스타일 */
+.btn-fill {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: transparent; 
+    color: #68c290; 
+    font-size: 20px;
+    font-family: 'BPreplay', Arial, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 30px;
+    border: 2px solid #68c290; 
+    border-radius: 12px; 
+    position: relative;
+    overflow: hidden; 
+    transition: all 0.3s ease-in-out; 
+    transform: translateY(0); 
+    height: 40px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    z-index: 1; 
+    cursor: pointer;
+}
+
+/* 배경 애니메이션 */
+.btn-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #68c290; 
+    opacity: 0; 
+    z-index: -1; 
+    transition: opacity 0.3s ease-in-out; 
+}
+
+/* 마우스를 올릴 때 효과 */
+.btn-fill:hover::before {
+    opacity: 1; 
+}
+
+.btn-fill:hover {
+    color: white;
+    border-color: #68c290; 
+}
+
+/* 텍스트를 위로 올림 */
+.btn-fill span {
+    position: relative;
+    z-index: 2; 
+}
+
+/* 버튼 클릭 시 효과 */
+.btn-fill:active {
+    transform: translateY(2px);
+}
+
 .alert {
     margin-top: 15px;
     font-size: 1rem;
@@ -202,7 +263,7 @@ body {
 
 /* 입력 필드 스타일 */
 .custom-input-field {
-    border: 2px solid #4CAF50; 
+    border: 2px solid #5c6167 !important;
     border-radius: 5px;
     padding: 10px;
     font-size: 1rem;
@@ -210,9 +271,9 @@ body {
 }
 
 .custom-input-field:focus {
-    border-color: #45A049; 
+    border-color: #45A049 !important; 
     outline: none;
-    box-shadow: 0 0 5px rgba(72, 239, 128, 0.5);
+    box-shadow: 0 0 1px #45A049 !important;
 }
 
 /* 아이콘 내부 정렬 조정 */
@@ -229,10 +290,11 @@ body {
     border-radius: 8px;
     padding: 15px 30px;
     font-family: 'BPreplay', Arial, sans-serif; 
-    font-size: 18px; 
+    font-size: 16px; 
     color: #495057;
     text-align: center;
     margin-top: 20px; 
+    margin-bottom: 20px;
 }
 
 @font-face {
