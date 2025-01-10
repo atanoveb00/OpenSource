@@ -1,5 +1,5 @@
 body {
-    background: #fff;
+    background: #F3FFF1;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -8,34 +8,85 @@ body {
     font-family: Arial, sans-serif;
 }
 .card {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* 버튼 간격 설정 */
+    align-items: center; 
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 500px;
+    width: 450px;
     padding: 25px;
     text-align: center;
 }
-h1 {
-    color: #495057;
-    margin-bottom: 20px;
+.logo-img {
+    max-width: 200px
+}
+
+/* 버튼 기본 스타일 */
+.btn-3d-fill {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: transparent; 
+    color: #68c290; 
     font-size: 24px;
-}
-.btn {
-    display: block;
-    background: linear-gradient(135deg, #00AB59, #0ba75c);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 18px;
+    font-family: 'BPreplayBold', Arial, sans-serif;
     text-align: center;
-    padding: 10px;
-    margin: 30px 0;
     text-decoration: none;
-    transition: background 0.3s ease;
+    padding: 15px 30px;
+    border: 2px solid #68c290; 
+    border-radius: 12px; 
+    position: relative;
+    overflow: hidden; 
+    transition: all 0.3s ease-in-out; 
+    transform: translateY(0); 
+    height: 22px; 
+    width: 250px;
+    z-index: 1; 
 }
-.btn:hover {
-    background: linear-gradient(135deg, #0ba75c, #00AB59);
+
+/* 배경 애니메이션 */
+.btn-3d-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #68c290; 
+    opacity: 0; 
+    z-index: -1; 
+    transition: opacity 0.3s ease-in-out; 
 }
-.btn:active {
-    transform: scale(0.98);
+
+/* 마우스를 올릴 때 효과 */
+.btn-3d-fill:hover::before {
+    opacity: 1; 
+}
+
+.btn-3d-fill:hover {
+    color: white;
+    box-shadow: 0 8px #4a946d; 
+    transform: translateY(-6px);
+    border-color: #68c290; 
+}
+
+/* 텍스트를 위로 올림 */
+.btn-3d-fill span {
+    position: relative;
+    z-index: 2; 
+}
+
+/* 버튼 클릭 시 효과 */
+.btn-3d-fill:active {
+    box-shadow: 0 2px #4a946d; 
+    transform: translateY(2px);
+}
+
+@font-face {
+    font-family: 'BPreplayBold';
+    src: url('/assets/fonts/BPreplayBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
