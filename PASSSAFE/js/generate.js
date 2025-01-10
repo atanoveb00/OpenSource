@@ -18,13 +18,40 @@ document.addEventListener("DOMContentLoaded", () => {
         // 옵션 1: 최소 2개 이상 체크 확인
         const option1SelectedCount = [includeLetters, includeNumbers, includeSpecialChars].filter(Boolean).length;
         if (option1SelectedCount < 2) {
-            alert("문자 유형은 최소 2개 이상 선택해야 합니다.");
+            Swal.fire({
+                icon: 'warning', // 경고 아이콘
+                html: 'You need to select <br> at least two types of characters.',
+                confirmButtonText: 'OK', // 버튼 텍스트
+                width: '350px',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    text: 'swal-text',
+                    icon: 'swal2-icon', // 아이콘 클래스 지정
+                    confirmButton: 'btn',
+                },
+                buttonsStyling: false,
+            });
             return;
         }
 
         // 옵션 2: 길이 옵션 하나만 선택 확인
         if (!lengthOption) {
-            alert("길이 옵션을 하나 선택해야 합니다.");
+            Swal.fire({
+                icon: 'warning', // 경고 아이콘
+                html: 'You need to select <br> at least one length option.',
+                confirmButtonText: 'OK', // 버튼 텍스트
+                height: '60px',
+                width: '350px',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    text: 'swal-text',
+                    icon: 'swal2-icon', // 아이콘 클래스 지정
+                    confirmButton: 'btn',
+                },
+                buttonsStyling: false,
+            });
             return;
         }
 
@@ -32,7 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const [minLength, maxLength] = lengthOption.value.split("-").map(Number);
         currentPassword = generatePassword(includeLetters, includeNumbers, includeSpecialChars, minLength, maxLength);
 
-        result.textContent = `생성된 비밀번호: ${currentPassword}`;
+        result.innerHTML = `Generated Password: <strong>${currentPassword}</strong>`;
+        result.className = "alert password-display";
         result.style.display = "block";
 
         // "목록에 추가하기" 버튼 생성
@@ -97,40 +125,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const addToListButton = document.createElement("button");
         addToListButton.id = "addToListButton";
-        addToListButton.textContent = "목록에 추가하기";
+        addToListButton.textContent = "Add to List and Manage";
         addToListButton.className = "btn";
 
-        // 버튼 클릭 시 관리 페이지로 데이터 전달
+        // 버튼 클릭 시 SweetAlert 사용
         addToListButton.addEventListener("click", () => {
-            const date = new Date().toLocaleString(); // 현재 날짜 및 시간
-            const usage = prompt("사용처를 입력해주세요:", "예: 이메일"); // 사용처 입력 받기
+            Swal.fire({
+                title: 'Add Password to List',
+                input: 'text',
+                inputLabel: 'Enter the usage for this password:',
+                inputPlaceholder: 'e.g., Email, Social Media',
+                showCancelButton: true,
+                confirmButtonText: 'Add to List',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    popup: 'swal-popup',   // 팝업 스타일
+                    title: 'swal-title',   // 제목 스타일
+                    text: 'swal-text',      // 본문 텍스트 스타일
+                    confirmButton: 'custom-confirm-btn', // 확인 버튼 스타일
+                    cancelButton: 'custom-cancel-btn',  // 취소 버튼 스타일
+                    input: 'custom-input-field', // 입력 필드 스타일
+                },
+                buttonsStyling: false,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You need to provide a usage!';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const usage = result.value;
+                    const date = new Date().toLocaleString(); // 현재 날짜 및 시간
 
-            if (!usage) {
-                alert("사용처를 입력해야 합니다.");
-                return;
-            }
+                    // 비밀번호 및 추가 정보 저장
+                    const passwordData = {
+                        date: date,
+                        password: currentPassword,
+                        usage: usage,
+                    };
 
-            // 비밀번호 및 추가 정보 저장
-            const passwordData = {
-                date: date,
-                password: currentPassword,
-                usage: usage,
-            };
+                    // 로컬 스토리지에 저장
+                    const passwordList = JSON.parse(localStorage.getItem("passwordList")) || [];
+                    passwordList.push(passwordData);
+                    localStorage.setItem("passwordList", JSON.stringify(passwordList));
 
-            // 로컬 스토리지에 저장
-            const passwordList = JSON.parse(localStorage.getItem("passwordList")) || [];
-            passwordList.push(passwordData);
-            localStorage.setItem("passwordList", JSON.stringify(passwordList));
-
-            alert("목록에 추가되었습니다!");
-
-            // "관리 페이지로 이동" 버튼 생성
-            createManagePageButton();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Added Successfully!',
+                        text: 'The password has been added to the list.',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            popup: 'swal-popup',   // 팝업 스타일
+                            title: 'swal-title',   // 제목 스타일
+                            text: 'swal-text',      // 본문 텍스트 스타일
+                            confirmButton: 'custom-confirm-btn',
+                        },
+                        buttonsStyling: false,
+                    });
+                    // "관리 페이지로 이동" 버튼 생성
+                    createManagePageButton();
+                }
+            });
         });
 
         // 결과 아래에 버튼 추가
         result.after(addToListButton);
     }
+
 
     // "관리 페이지로 이동" 버튼 생성 함수
     function createManagePageButton() {
@@ -139,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const managePageButton = document.createElement("button");
         managePageButton.id = "managePageButton";
-        managePageButton.textContent = "관리하기 페이지로 이동";
+        managePageButton.textContent = "Go to Manage Page";
         managePageButton.className = "btn";
 
         managePageButton.addEventListener("click", () => {
@@ -149,4 +210,5 @@ document.addEventListener("DOMContentLoaded", () => {
         const addToListButton = document.getElementById("addToListButton");
         addToListButton.after(managePageButton);
     }
+
 });

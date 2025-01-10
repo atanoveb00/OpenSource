@@ -1,17 +1,19 @@
 body {
+    background: #F3FFF1;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    margin-right: 80px;
     font-family: Arial, sans-serif;
     color: #495057; /* 텍스트 색상 변경 */
 }
 
 .container {
-    max-width: 500px; /* 카드의 최대 너비 증가 */
+    max-width: 500px; 
     width: 100%;
-    padding: 15px; /* 작은 여백 추가 */
+    padding: 10px; 
 }
 
 .card {
@@ -20,46 +22,229 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     padding: 30px; /* 카드 내부 패딩 증가 */
     text-align: center;
-    width: 100%;
+    width: 520px;
+}
+
+.logo-img {
+    max-width: 100px;
+    margin-bottom: -30px;
 }
 
 .title {
     color: #495057;
-    font-size: 1.8rem; /* 제목 크기 증가 */
-    margin-bottom: 30px; /* 제목과 다른 요소 간의 간격 증가 */
+    font-size: 40px; /* 제목 크기 증가 */
+    font-family: 'BPreplayBold', Arial, sans-serif;
+    margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 증가 */
+}
+
+.options {
+    background-color: #e2ede4;
+    border-radius: 10px;
+    padding: 1px 30px;
+    margin-bottom: 10px; /* 섹션 사이 간격 */
+    font-family: 'BPreplay', Arial, sans-serif;
 }
 
 .options label {
-    display: block;
+    display: flex;
     margin-bottom: 10px;
-    font-size: 1rem; /* 글자 크기 증가 */
+    font-size: 1rem; 
     color: #495057;
-    text-align: left; /* 왼쪽 정렬 */
+    text-align: center; /* 왼쪽 정렬 */
 }
 
 .options input {
-    margin-right: 8px;
+    margin-right: 10px;
+}
+
+/* 기본 체크박스 숨기기 */
+.options input[type="checkbox"] {
+    margin-right: 20px;
+    margin-top: 0px;
+    appearance: none; /* 기본 체크박스 스타일 제거 */
+    width: 16px;
+    height: 16px;
+    border: 2px solid #00AB59; 
+    border-radius: 4px; 
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+}
+
+/* 체크 상태 */
+.options input[type="checkbox"]:checked {
+    background-color: #00AB59; 
+    border-color: #00AB59; 
+}
+
+/* 체크박스 안의 체크 표시 */
+.options input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 2.5px;
+    width: 5px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* 라디오 버튼 스타일 */
+.options input[type="radio"] {
+    margin-right: 20px; /* 텍스트와 간격 */
+    margin-top: 0px;
+    appearance: none; 
+    width: 16px;
+    height: 16px;
+    border: 2px solid #00AB59; 
+    border-radius: 4px; 
+    position: relative;
+    vertical-align: middle; 
+}
+
+/* 라디오 버튼 체크 상태 */
+.options input[type="radio"]:checked {
+    background-color: #00AB59;
+    border-color: #00AB59; 
+}
+
+/* 라디오 버튼 체크 표시 */
+.options input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 1px; 
+    left:2.5px;
+    width: 5px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); 
 }
 
 .btn {
     background: linear-gradient(135deg, #00AB59, #0ba75c);
     border: none;
-    padding: 12px 20px; /* 버튼 크기 증가 */
+    padding: 12px 20px; 
     color: white;
-    font-size: 1.1rem; /* 버튼 텍스트 크기 증가 */
+    font-size: 1.1rem; 
+    font-family: 'BPreplay', Arial, sans-serif;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 20px; /* 버튼과 다른 요소 간의 간격 증가 */
+    margin-top: 20px; 
     width: 100%;
 }
 
 .btn:hover {
     background: linear-gradient(135deg, #0ba75c, #00AB59);
+    font-family: 'BPreplay', Arial, sans-serif !important;
 }
 
 .alert {
     margin-top: 15px;
-    font-size: 1rem; /* 알림 텍스트 크기 증가 */
+    font-size: 1rem;
     color: #0ba75c;
     display: none;
+}
+
+/* SweetAlert 팝업 스타일 */
+.swal-popup {
+    font-family: 'BPreplay', Arial, sans-serif !important;
+    font-size: 14px !important;
+}
+
+/* 제목 스타일 */
+.swal-title {
+    font-family: 'BPreplay', Arial, sans-serif !important;
+    font-size: 20px !important;
+    color: #495057 !important;
+}
+
+/* 텍스트 스타일 */
+.swal-text {
+    font-family: 'BPreplay', Arial, sans-serif !important;
+    font-size: 14px !important;
+    color: #757575 !important;
+}
+
+/* 버튼 스타일 */
+.custom-confirm-btn {
+    font-family: 'BPreplay', Arial, sans-serif; 
+    background-color: #4CAF50; 
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.custom-confirm-btn:hover {
+    background-color: #45A049;
+}
+
+.custom-cancel-btn {
+    font-family: 'BPreplay', Arial, sans-serif; 
+    background-color: #495057; 
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.custom-cancel-btn:hover {
+    background-color: #5c6167;
+}
+
+/* 입력 필드 스타일 */
+.custom-input-field {
+    border: 2px solid #4CAF50; 
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.custom-input-field:focus {
+    border-color: #45A049; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(72, 239, 128, 0.5);
+}
+
+/* 아이콘 내부 정렬 조정 */
+.swal2-icon-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 7px;
+    margin-top: 5px;
+}
+
+.password-display {
+    background-color: #e2ede4;
+    border-radius: 8px;
+    padding: 15px 30px;
+    font-family: 'BPreplay', Arial, sans-serif; 
+    font-size: 18px; 
+    color: #495057;
+    text-align: center;
+    margin-top: 20px; 
+}
+
+@font-face {
+    font-family: 'BPreplayBold';
+    src: url('/assets/fonts/BPreplayBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BPreplay';
+    src: url('/assets/fonts/BPreplay.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
