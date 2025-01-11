@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     popup: 'swal-popup',
                     title: 'swal-title',
                     text: 'swal-text',
-                    icon: 'swal2-icon', // 아이콘 클래스 지정
                     confirmButton: 'btn',
                 },
                 buttonsStyling: false,
@@ -47,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     popup: 'swal-popup',
                     title: 'swal-title',
                     text: 'swal-text',
-                    icon: 'swal2-icon', // 아이콘 클래스 지정
                     confirmButton: 'btn',
                 },
                 buttonsStyling: false,
@@ -173,8 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Added Successfully!',
-                        text: 'The password has been added to the list.',
+                        html: 'The password has been added <br> to the list.',
                         confirmButtonText: 'OK',
+                        width: '350px',
                         customClass: {
                             popup: 'swal-popup',   // 팝업 스타일
                             title: 'swal-title',   // 제목 스타일

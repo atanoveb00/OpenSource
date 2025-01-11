@@ -1,8 +1,7 @@
-// MJ
-
 document.addEventListener("DOMContentLoaded", () => {
   const passwordListTable = document.getElementById("passwordList");
   const homeButtonContainer = document.getElementById("homeButtonContainer");
+  const txtButtonContainer = document.getElementById("txtButtonContainer");
 
   // 로컬 스토리지에서 비밀번호 리스트 가져오기
   const passwordList = JSON.parse(localStorage.getItem("passwordList")) || [];
@@ -12,11 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordListTable.innerHTML = ""; // 기존 리스트 초기화
 
     if (passwordList.length === 0) {
-      // 리스트가 비어 있을 경우 메시지 표시
       const emptyRow = document.createElement("tr");
       const emptyCell = document.createElement("td");
       emptyCell.colSpan = 4; // 테이블 열 수에 맞추기
-      emptyCell.textContent = "표가 비어 있습니다. 비밀번호를 추가해주세요.";
+      emptyCell.textContent = "The table is empty. Please add a password.";
       emptyCell.style.textAlign = "center"; // 중앙 정렬
       emptyRow.appendChild(emptyCell);
       passwordListTable.appendChild(emptyRow);
@@ -25,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     passwordList.forEach((passwordData, index) => {
       const row = document.createElement("tr");
-      row.className = "password-row";
 
       // 생성 날짜 셀
       const dateCell = document.createElement("td");
@@ -37,21 +34,24 @@ document.addEventListener("DOMContentLoaded", () => {
       passwordSpan.textContent = "●●●●●●●"; // 기본적으로 숨김 표시
       passwordSpan.className = "hidden-password";
 
-      const toggleButton = document.createElement("button");
-      toggleButton.textContent = "보기";
-      toggleButton.className = "btn-toggle";
-      toggleButton.addEventListener("click", () => {
+      const toggleIcon = document.createElement("img");
+      toggleIcon.src = "/assets/img/eye-closed.png"; // 기본 눈 감은 아이콘
+      toggleIcon.alt = "Toggle Password";
+      toggleIcon.className = "toggle-icon";
+      toggleIcon.style.cursor = "pointer";
+
+      toggleIcon.addEventListener("click", () => {
         if (passwordSpan.textContent === "●●●●●●●") {
           passwordSpan.textContent = passwordData.password; // 비밀번호 표시
-          toggleButton.textContent = "숨기기";
+          toggleIcon.src = "/assets/img/eye-open.png"; // 눈 뜬 아이콘
         } else {
           passwordSpan.textContent = "●●●●●●●"; // 비밀번호 숨김
-          toggleButton.textContent = "보기";
+          toggleIcon.src = "/assets/img/eye-closed.png"; // 눈 감은 아이콘
         }
       });
 
       passwordCell.appendChild(passwordSpan);
-      passwordCell.appendChild(toggleButton);
+      passwordCell.appendChild(toggleIcon);
 
       // 사용처 셀
       const usageCell = document.createElement("td");
@@ -63,28 +63,79 @@ document.addEventListener("DOMContentLoaded", () => {
         // 사용처 변경 시 로컬 스토리지 업데이트
         passwordList[index].usage = usageInput.value;
         localStorage.setItem("passwordList", JSON.stringify(passwordList));
-        alert("사용처가 수정되었습니다.");
+        Swal.fire({
+          icon: 'success',
+          title: 'Usage updated successfully.',
+          confirmButtonText: 'OK',
+          width: '350px',
+          customClass: {
+            popup: 'swal-popup',
+            title: 'swal-title',
+            text: 'swal-text',
+            confirmButton: 'custom-confirm-btn'
+          },
+          buttonsStyling: false
+        });
       });
       usageCell.appendChild(usageInput);
 
       // 삭제 버튼
       const deleteButton = document.createElement("button");
-      deleteButton.textContent = "삭제";
       deleteButton.className = "btn-delete";
+      const deleteImage = document.createElement("img");
+      deleteImage.src = "/assets/img/delete.png"; // 이미지 경로
+      deleteImage.alt = "Delete";
+      deleteImage.style.width = "14px"; // 이미지 크기
+      deleteImage.style.height = "14px"; // 이미지 크기
+      deleteButton.appendChild(deleteImage);
+
       deleteButton.addEventListener("click", () => {
-        if (confirm("이 비밀번호를 삭제하시겠습니까?")) {
-          passwordList.splice(index, 1); // 리스트에서 삭제
-          localStorage.setItem("passwordList", JSON.stringify(passwordList)); // 로컬 스토리지 업데이트
-          renderPasswordList(); // 테이블 다시 렌더링
-        }
+        Swal.fire({
+          title: 'Password Delete',
+          html: 'Are you sure you want to delete <br> this password?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'delete',
+          cancelButtonText: 'cancel',
+          width: '350px',
+          customClass: {
+            popup: 'swal-popup',
+            title: 'swal-title',
+            text: 'swal-text',
+            confirmButton: 'custom-confirm-btn',
+            cancelButton: 'custom-cancel-btn',
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            passwordList.splice(index, 1);
+            localStorage.setItem("passwordList", JSON.stringify(passwordList));
+            renderPasswordList();
+            Swal.fire({
+              icon: 'success',
+              title: 'Deletion completed!',
+              text: 'The password has been deleted.',
+              width: '350px',
+              confirmButtonText: 'OK',
+              customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                text: 'swal-text',
+                confirmButton: 'custom-confirm-btn',
+              },
+              buttonsStyling: false,
+            });
+          }
+        });
       });
+
+      const deleteCell = document.createElement("td");
+      deleteCell.appendChild(deleteButton);
 
       // 행에 셀 추가
       row.appendChild(dateCell);
       row.appendChild(passwordCell);
       row.appendChild(usageCell);
-      const deleteCell = document.createElement("td");
-      deleteCell.appendChild(deleteButton);
       row.appendChild(deleteCell);
 
       // 테이블에 행 추가
@@ -95,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 홈으로 가기 버튼 추가
   function renderHomeButton() {
     const homeButton = document.createElement("button");
-    homeButton.textContent = "홈으로 가기";
-    homeButton.className = "btn-home";
+    homeButton.textContent = "Go to Home Page";
+    homeButton.className = "btn-fill";
     homeButton.addEventListener("click", () => {
       window.location.href = "index.html"; // 비밀번호 생성 페이지로 이동
     });
@@ -106,40 +157,33 @@ document.addEventListener("DOMContentLoaded", () => {
   // 파일로 추출하기 버튼 추가
   function renderTxtExtractButton() {
     const txtButton = document.createElement("button");
-    txtButton.textContent = "파일로 추출하기";
-    txtButton.className = "btn-txt";
+    txtButton.textContent = "Export to File";
+    txtButton.className = "btn-fill";
     txtButton.addEventListener("click", downloadPasswordList);
     txtButtonContainer.appendChild(txtButton);
   }
 
   function downloadPasswordList() {
-    // 로컬 스토리지에서 비밀번호 리스트 가져오기
-    const passwordList = JSON.parse(localStorage.getItem("passwordList")) || [];
-
     if (passwordList.length === 0) {
-      alert("비밀번호 리스트가 비어 있습니다.");
+      alert("The password list is empty.");
       return;
     }
 
-    // 텍스트 데이터 생성
-    let fileContent = "생성 날짜\t비밀번호\t사용처\n"; // 헤더 추가
+    let fileContent = "Generation Date\tPassword\tUsage\n";
     passwordList.forEach((item) => {
       fileContent += `${item.date}\t${item.password}\t${item.usage}\n`;
     });
 
-    // Blob 객체 생성
     const blob = new Blob([fileContent], { type: "text/plain" });
-
-    // 다운로드 링크 생성
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "passwordList.txt";
-    document.body.appendChild(link); // 링크 추가
-    link.click(); // 링크 클릭
-    document.body.removeChild(link); // 링크 제거
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
-  renderPasswordList(); // 초기 렌더링
-  renderHomeButton(); // 홈 버튼 렌더링
-  renderTxtExtractButton(); // 파일로 추출하기 버튼 렌더링
+  renderPasswordList();
+  renderHomeButton();
+  renderTxtExtractButton();
 });
