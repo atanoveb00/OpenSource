@@ -87,7 +87,7 @@ body {
 
 @font-face {
     font-family: 'BPreplayBold';
-    src: url('/assets/fonts/BPreplayBold.woff') format('woff');
+    src: url('../assets/fonts/BPreplayBold.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
