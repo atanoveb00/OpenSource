@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("passwordList", JSON.stringify(passwordList));
         Swal.fire({
           icon: 'success',
-          title: 'Usage updated successfully.',
+          text: 'Usage updated successfully.',
           confirmButtonText: 'OK',
           width: '350px',
           customClass: {

@@ -19,7 +19,7 @@ body {
   padding: 30px;
   /* 카드 내부 패딩 증가 */
   text-align: center;
-  width: 700px;
+  width: 670px;
   margin-left: 80px;
 }
 
@@ -88,21 +88,6 @@ body {
   cursor: pointer;
 }
 
-.btn-toggle {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  margin-left: 5px;
-}
-
-.btn-toggle:hover {
-  background-color: #0056b3;
-}
-
 /* Button */
 .btn-delete {
   background-color: #d6ecda;
@@ -140,7 +125,7 @@ body {
   width: 250px;
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 220px;
+  margin-left: 210px;
   z-index: 1;
   cursor: pointer;
 }
@@ -192,9 +177,9 @@ body {
 }
 
 .usage-input:focus {
-  border-color: #007bff;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border: 1px solid #00AB59; 
+  box-shadow: 0 0 1px #00AB59; 
 }
 
 /* SweetAlert 팝업 스타일 */
