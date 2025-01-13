@@ -1,25 +1,94 @@
 body {
+  background: #F3FFF1;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
-  font-family: Arial, sans-serif;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 200px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .card {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-around;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 500px;
-  padding: 30px;
+  width: 100%;
+  padding-top: 170px;
+  padding-bottom: 30px;
+  padding-right: 30px;
   text-align: center;
+  min-width: 48%;
+  position: relative;
 }
 
-h1 {
+.column {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+.column h3 {
+  margin-bottom: 1rem;
+  font-size: 22px;
+  font-family: 'BPreplayBold', Arial, sans-serif;
+  color: #495057
+}
+
+.column input,
+.column button {
+  width: 100%; 
+  max-width: none; 
+  box-sizing: border-box;
+}
+
+.column form {
+  width: 100%; 
+}
+
+.logo-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -50px;
+  max-width: 100px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.logo-img:hover {
+  opacity: 0.8; 
+  transform: scale(1.05); 
+  transition: all 0.3s ease; 
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 50%;
   color: #495057;
-  margin-bottom: 30px;
-  font-size: 28px;
+  font-size: 40px;
+  font-family: 'BPreplayBold', Arial, sans-serif;
+  margin-top: 110px;
+  transform: translateX(-50%);
 }
 
 label {
@@ -27,7 +96,16 @@ label {
   text-align: left;
   margin-bottom: 10px;
   font-size: 16px;
+  font-family: 'BPreplay', Arial, sans-serif;
   color: #333;
+}
+
+hr {
+  border: none; 
+  height: 1px; 
+  background-color: #ccc; 
+  margin: 10px 0; 
+  width: 100%; 
 }
 
 input,
@@ -38,10 +116,17 @@ input,
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  font-family: 'BPreplay', Arial, sans-serif;
 }
 
 input {
   box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #00AB59; 
+  box-shadow: 0 0 1px #00AB59; 
 }
 
 .btn {
@@ -65,6 +150,7 @@ input {
   padding: 10px;
   border-radius: 5px;
   font-size: 15px;
+  font-family: 'BPreplay', Arial, sans-serif;
   min-height: 10px;
   line-height: 1.5;
 }
@@ -81,20 +167,33 @@ input {
   border: 1px solid #f5c6cb;
 }
 
-/* 비밀번호 보기 버튼 */
-#togglePassword {
-  position: absolute;
-  right: 10px;
-  top: 35%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+/* 비밀번호 셀 스타일 */
+.password-cell {
   display: flex;
+  justify-content: space-between;
+  /* 비밀번호와 아이콘의 위치를 양 끝으로 고정 */
   align-items: center;
-  justify-content: center;
+  /* 수직 정렬 */
+}
+
+/* 비밀번호 텍스트 */
+.hidden-password {
+  text-align: left;
+  font-size: 14px;
+  font-family: 'BPreplay', Arial, sans-serif;
+  color: #333;
+  white-space: nowrap;
+  margin-right: auto;
+  /* 아이콘과의 간격 확보 */
+}
+
+/* 아이콘 스타일 */
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  /* 비밀번호와 아이콘 사이 간격 */
 }
 
 #togglePassword img {
@@ -103,19 +202,16 @@ input {
   transition: transform 0.2s ease;
 }
 
-#togglePassword img:hover {
-  transform: scale(1.1);
-}
-
 /* 비밀번호 상태 체크 */
 #condition-container {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #f3fff1;
+  background-color: #f8fef7;
   border-radius: 5px;
   font-size: 15px;
+  font-family: 'BPreplay', Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -134,7 +230,7 @@ input {
 #strength-bar-container {
   width: 100%;
   height: 30px;
-  background-color: #e0e0e0;
+  background-color: #f8fef7;
   border-radius: 5px;
   overflow: hidden;
   margin-top: 20px;
@@ -149,25 +245,15 @@ input {
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-/* brute forecem 버튼 설정 */
-#brute-force-button {
-  width: 100%;
-  background: linear-gradient(135deg, #00ab59, #0ba75c);
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 50px;
-}
-
-#brute-force-button:hover {
-  background: linear-gradient(135deg, #0ba75c, #00ab59);
+#strength-text {
+  font-family: 'BPreplay', Arial, sans-serif;
 }
 
 /* brute force 진행 및 결과 */
 #current-attempt {
   position: relative;
-  font-size: 16px;
+  font-size: 15px;
+  font-family: 'BPreplay', Arial, sans-serif;
   color: #333;
   margin-top: 15px;
   text-align: center;
@@ -177,10 +263,10 @@ input {
   position: relative;
   width: 100%;
   height: 30px;
-  background-color: #e0e0e0;
+  background-color: #f8fef7;
   border-radius: 5px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -193,7 +279,13 @@ input {
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-/* ////////// */
+.status {
+  font-family: 'BPreplay', Arial, sans-serif;
+}
+
+.brute-strength-text {
+  font-family: 'BPreplay', Arial, sans-serif;
+}
 
 /* Weak Password Dictionary Check Styles */
 #dictionary-check-container {
@@ -202,7 +294,7 @@ input {
 
 #dictionary-check-result {
   margin-top: 10px;
-  font-weight: bold;
+  font-family: 'BPreplay', Arial, sans-serif;
 }
 
 .container {
@@ -221,26 +313,135 @@ form {
   gap: 10px;
 }
 
-button {
-  padding: 10px;
-  font-size: 1em;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
+/* 버튼 기본 스타일 */
+.btn-fill {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background: transparent; 
+  color: #68c290; 
+  font-size: 16px;
+  font-family: 'BPreplay', Arial, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  padding: 15px 30px;
+  border: 2px solid #68c290; 
+  border-radius: 8px; 
+  position: relative;
+  overflow: hidden; 
+  transition: all 0.3s ease-in-out; 
+  transform: translateY(0); 
+  height: 40px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  z-index: 1; 
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
+/* 배경 애니메이션 */
+.btn-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #68c290; 
+  opacity: 0; 
+  z-index: -1; 
+  transition: opacity 0.3s ease-in-out; 
+}
+
+/* 마우스를 올릴 때 효과 */
+.btn-fill:hover::before {
+  opacity: 1; 
+}
+
+.btn-fill:hover {
+  color: white;
+  border-color: #68c290; 
+}
+
+/* 텍스트를 위로 올림 */
+.btn-fill span {
+  position: relative;
+  z-index: 2; 
+}
+
+/* 버튼 클릭 시 효과 */
+.btn-fill:active {
+  transform: translateY(2px);
+}
+
+/* SweetAlert 팝업 스타일 */
+.swal-popup {
+  font-family: 'BPreplay', Arial, sans-serif !important;
+  font-size: 14px !important;
+}
+
+/* 제목 스타일 */
+.swal-title {
+  font-family: 'BPreplay', Arial, sans-serif !important;
+  font-size: 20px !important;
+  color: #495057 !important;
+}
+
+/* 텍스트 스타일 */
+.swal-text {
+  font-family: 'BPreplay', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: #757575 !important;
+}
+
+/* 버튼 스타일 */
+.custom-confirm-btn {
+  font-family: 'BPreplay', Arial, sans-serif;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.custom-confirm-btn:hover {
+  background-color: #45A049;
+}
+
+/* 아이콘 내부 정렬 조정 */
+.swal2-icon-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7px;
+  margin-top: 5px;
 }
 
 #result_HBIP {
   margin-top: 20px;
   font-size: 1em;
+  font-family: 'BPreplay', Arial, sans-serif;
 }
 
 #loading-message {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  font-family: 'BPreplay', Arial, sans-serif;
+}
+
+
+@font-face {
+  font-family: 'BPreplayBold';
+  src: url('../assets/fonts/BPreplayBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BPreplay';
+  src: url('../assets/fonts/BPreplay.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
