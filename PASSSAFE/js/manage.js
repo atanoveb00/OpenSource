@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       passwordSpan.className = "hidden-password";
 
       const toggleIcon = document.createElement("img");
-      toggleIcon.src = "/assets/img/eye-closed.png"; // 기본 눈 감은 아이콘
+      toggleIcon.src = "assets/img/eye-closed.png"; // 기본 눈 감은 아이콘
       toggleIcon.alt = "Toggle Password";
       toggleIcon.className = "toggle-icon";
       toggleIcon.style.cursor = "pointer";
@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleIcon.addEventListener("click", () => {
         if (passwordSpan.textContent === "●●●●●●●") {
           passwordSpan.textContent = passwordData.password; // 비밀번호 표시
-          toggleIcon.src = "/assets/img/eye-open.png"; // 눈 뜬 아이콘
+          toggleIcon.src = "assets/img/eye-open.png"; // 눈 뜬 아이콘
         } else {
           passwordSpan.textContent = "●●●●●●●"; // 비밀번호 숨김
-          toggleIcon.src = "/assets/img/eye-closed.png"; // 눈 감은 아이콘
+          toggleIcon.src = "assets/img/eye-closed.png"; // 눈 감은 아이콘
         }
       });
 
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const deleteButton = document.createElement("button");
       deleteButton.className = "btn-delete";
       const deleteImage = document.createElement("img");
-      deleteImage.src = "/assets/img/delete.png"; // 이미지 경로
+      deleteImage.src = "assets/img/delete.png"; // 이미지 경로
       deleteImage.alt = "Delete";
       deleteImage.style.width = "14px"; // 이미지 크기
       deleteImage.style.height = "14px"; // 이미지 크기
@@ -143,17 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 홈으로 가기 버튼 추가
-  function renderHomeButton() {
-    const homeButton = document.createElement("button");
-    homeButton.textContent = "Go to Home Page";
-    homeButton.className = "btn-fill";
-    homeButton.addEventListener("click", () => {
-      window.location.href = "index.html"; // 비밀번호 생성 페이지로 이동
-    });
-    homeButtonContainer.appendChild(homeButton);
-  }
-
   // 파일로 추출하기 버튼 추가
   function renderTxtExtractButton() {
     const txtButton = document.createElement("button");
@@ -184,6 +173,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderPasswordList();
-  renderHomeButton();
   renderTxtExtractButton();
 });

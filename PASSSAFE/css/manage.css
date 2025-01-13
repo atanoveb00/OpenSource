@@ -16,7 +16,8 @@ body {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  padding: 30px; /* 카드 내부 패딩 증가 */
+  padding: 30px;
+  /* 카드 내부 패딩 증가 */
   text-align: center;
   width: 700px;
   margin-left: 80px;
@@ -27,11 +28,19 @@ body {
   margin-bottom: -30px;
 }
 
+.logo-img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
 .title {
   color: #495057;
-  font-size: 40px; /* 제목 크기 증가 */
+  font-size: 40px;
+  /* 제목 크기 증가 */
   font-family: 'BPreplayBold', Arial, sans-serif;
-  margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 증가 */
+  margin-bottom: 20px;
+  /* 제목과 다른 요소 간의 간격 증가 */
 }
 
 /* Table */
@@ -51,7 +60,7 @@ body {
 }
 
 .password-table th {
-  background-color: #f4f4f4;
+  background-color: #f8fef7;
   font-weight: bold;
 }
 
@@ -96,7 +105,7 @@ body {
 
 /* Button */
 .btn-delete {
-  background-color: #ecd6d8;
+  background-color: #d6ecda;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -111,28 +120,28 @@ body {
 
 /* 버튼 기본 스타일 */
 .btn-fill {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  background: transparent; 
-  color: #68c290; 
-  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: #68c290;
+  font-size: 16px;
   font-family: 'BPreplay', Arial, sans-serif;
   text-align: center;
   text-decoration: none;
   padding: 15px 30px;
-  border: 2px solid #68c290; 
-  border-radius: 12px; 
+  border: 2px solid #68c290;
+  border-radius: 12px;
   position: relative;
-  overflow: hidden; 
-  transition: all 0.3s ease-in-out; 
-  transform: translateY(0); 
-  height: 40px;
-  width: 300px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  transform: translateY(0);
+  height: 30px;
+  width: 250px;
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 200px;
-  z-index: 1; 
+  margin-left: 220px;
+  z-index: 1;
   cursor: pointer;
 }
 
@@ -144,26 +153,26 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #68c290; 
-  opacity: 0; 
-  z-index: -1; 
-  transition: opacity 0.3s ease-in-out; 
+  background: #68c290;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 /* 마우스를 올릴 때 효과 */
 .btn-fill:hover::before {
-  opacity: 1; 
+  opacity: 1;
 }
 
 .btn-fill:hover {
   color: white;
-  border-color: #68c290; 
+  border-color: #68c290;
 }
 
 /* 텍스트를 위로 올림 */
 .btn-fill span {
   position: relative;
-  z-index: 2; 
+  z-index: 2;
 }
 
 /* 버튼 클릭 시 효과 */
@@ -210,8 +219,8 @@ body {
 
 /* 버튼 스타일 */
 .custom-confirm-btn {
-  font-family: 'BPreplay', Arial, sans-serif; 
-  background-color: #4CAF50; 
+  font-family: 'BPreplay', Arial, sans-serif;
+  background-color: #4CAF50;
   color: white;
   font-size: 1rem;
   padding: 10px 20px;
@@ -226,8 +235,8 @@ body {
 }
 
 .custom-cancel-btn {
-  font-family: 'BPreplay', Arial, sans-serif; 
-  background-color: #495057; 
+  font-family: 'BPreplay', Arial, sans-serif;
+  background-color: #495057;
   color: white;
   font-size: 1rem;
   padding: 10px 20px;
@@ -252,14 +261,14 @@ body {
 
 @font-face {
   font-family: 'BPreplayBold';
-  src: url('/assets/fonts/BPreplayBold.woff') format('woff');
+  src: url('../assets/fonts/BPreplayBold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'BPreplay';
-  src: url('/assets/fonts/BPreplay.woff') format('woff');
+  src: url('../assets/fonts/BPreplay.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
